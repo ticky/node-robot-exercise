@@ -1,0 +1,26 @@
+{
+  "name": "robot-exercise",
+  "author": "Geoff Stokes <geoff@geoffstokes.net>",
+  "version": "1.0.0",
+  "description": "A programming exercise, creating an interpreter for programming a “robot”. Think RoboRally but in text only.",
+  "main": "index.js",
+  "bin": {
+    "robot-exercise": "bin/robots.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha -- -R spec"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "istanbul": "^0.3.0",
+    "mocha": "^1.21.4"
+  },
+  "dependencies": {
+    "nomnom": "^1.8.0",
+    "split": "^0.3.0"
+  }
+}
