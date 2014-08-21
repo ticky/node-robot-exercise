@@ -11,142 +11,7 @@ var robots = require('../'),
 
 describe('Robot', function() {
 
-	it('should be a function', function() {
-
-		assert.strictEqual(typeof Robot, 'function');
-
-	});
-
-	describe('`x` property', function() {
-
-		it('should reject non-numeric values with an error', function() {
-
-			var robot = new Robot();
-
-			assert.throws(function() {
-				robot.x = 'foo';
-			});
-
-			assert.throws(function() {
-				robot.x = /foo/;
-			});
-
-		})
-
-		it('should ignore attempts to set if the Robot is not on a table', function() {
-
-			var robot = new Robot();
-
-			robot.x = 123;
-
-			assert.strictEqual(robot.x, undefined);
-
-		});
-
-		it('should ignore attempts to set if the coordinate is out of range', function() {
-
-			var robot = new Robot(new Table(1, 1));
-
-			robot.x = 2;
-
-			assert.strictEqual(robot.x, undefined);
-
-		});
-
-		it('should correctly set the value if it is a valid number which is in range', function() {
-
-			var robot = new Robot(new Table(5, 5));
-
-			robot.x = 3;
-
-			assert.strictEqual(robot.x, 3);
-
-		});
-
-	});
-
-	describe('`y` property', function() {
-
-		it('should reject non-numeric values with an error', function() {
-
-			var robot = new Robot();
-
-			assert.throws(function() {
-				robot.y = 'foo';
-			});
-
-			assert.throws(function() {
-				robot.y = /foo/;
-			});
-
-		})
-
-		it('should ignore attempts to set if the Robot is not on a table', function() {
-
-			var robot = new Robot();
-
-			robot.y = 123;
-
-			assert.strictEqual(robot.y, undefined);
-
-		});
-
-		it('should ignore attempts to set if the coordinate is out of range', function() {
-
-			var robot = new Robot(new Table(1, 1));
-
-			robot.y = 2;
-
-			assert.strictEqual(robot.y, undefined);
-
-		});
-
-		it('should correctly set the value if it is a valid number which is in range', function() {
-
-			var robot = new Robot(new Table(5, 5));
-
-			robot.y = 3;
-
-			assert.strictEqual(robot.y, 3);
-
-		});
-
-	});
-
-	describe('`direction` property', function() {
-
-		it('should ignore attempts to set if the robot is not on a table', function() {
-
-			var robot = new Robot();
-
-			robot.direction = 'SOUTH';
-
-			assert.strictEqual(robot.direction, undefined);
-
-		});
-
-		it('should correctly set the value if the robot is on a table', function() {
-
-			var robot = new Robot(new Table(5, 5));
-
-			robot.direction = 2;
-
-			assert.strictEqual(robot.direction, 2);
-
-		});
-
-
-	});
-
 	describe('`isOnTable` method', function() {
-
-		it('should be a function', function() {
-
-			var robot = new Robot();
-
-			assert.strictEqual(typeof robot.place, 'function');
-
-		});
 
 		it('should return `true` if both the Robot\'s `x` and `y` are `Number`s', function() {
 
@@ -183,41 +48,53 @@ describe('Robot', function() {
 
 	describe('`place` method', function() {
 
-		it('should be a function', function() {
+		it('should abort when the Robot has no Table', function() {
 
 			var robot = new Robot();
 
-			assert.strictEqual(typeof robot.place, 'function');
+			assert.strictEqual(robot.place(0, 0, 'NORTH'), undefined);
+
+			assert.strictEqual(typeof robot.x, 'undefined');
+			assert.strictEqual(typeof robot.y, 'undefined');
+			assert.strictEqual(typeof robot.direction, 'undefined');
 
 		});
 
 		it('should throw an Error when an invalid direction is given', function() {
 
-			var robot = new Robot();
+			var robot = new Robot(new Table(1, 1));
 
 			assert.throws(function() {
 				robot.place(0, 0, 'LEFT');
 			});
 
-		});
-
-		it('should throw an Error if `x` is not a `Number`', function() {
-
-			var robot = new Robot();
-
-			assert.throws(function() {
-				robot.place(undefined, 0, 'NORTH');
-			});
+			assert.strictEqual(typeof robot.x, 'undefined');
+			assert.strictEqual(typeof robot.y, 'undefined');
+			assert.strictEqual(typeof robot.direction, 'undefined');
 
 		});
 
-		it('should throw an Error if `y` is not a `Number`', function() {
+		it('should abort if `x` is not a `Number`', function() {
 
-			var robot = new Robot();
+			var robot = new Robot(new Table(1, 1));
 
-			assert.throws(function() {
-				robot.place(0, undefined, 'NORTH');
-			});
+			robot.place(undefined, 0, 'NORTH');
+
+			assert.strictEqual(typeof robot.x, 'undefined');
+			assert.strictEqual(typeof robot.y, 'undefined');
+			assert.strictEqual(typeof robot.direction, 'undefined');
+
+		});
+
+		it('should abort if `y` is not a `Number`', function() {
+
+			var robot = new Robot(new Table(1, 1));
+
+			robot.place(0, undefined, 'NORTH');
+
+			assert.strictEqual(typeof robot.x, 'undefined');
+			assert.strictEqual(typeof robot.y, 'undefined');
+			assert.strictEqual(typeof robot.direction, 'undefined');
 
 		});
 
@@ -225,17 +102,9 @@ describe('Robot', function() {
 
 	describe('`move` method', function() {
 
-		it('should be a function', function() {
+		it('should abort when the Robot has not been placed', function() {
 
-			var robot = new Robot();
-
-			assert.strictEqual(typeof robot.move, 'function');
-
-		});
-
-		it('should abort when the robot is not placed on a table', function() {
-
-			var robot = new Robot();
+			var robot = new Robot(new Table(1, 1));
 
 			assert.strictEqual(robot.move(), false);
 
@@ -301,17 +170,9 @@ describe('Robot', function() {
 
 	describe('`left` method', function() {
 
-		it('should be a function', function() {
+		it('should abort when the Robot has not been placed', function() {
 
-			var robot = new Robot();
-
-			assert.strictEqual(typeof robot.left, 'function');
-
-		});
-
-		it('should abort when the robot is not placed on a table', function() {
-
-			var robot = new Robot();
+			var robot = new Robot(new Table(1, 1));
 
 			assert.strictEqual(robot.left(), false);
 
@@ -347,17 +208,9 @@ describe('Robot', function() {
 
 	describe('`right` method', function() {
 
-		it('should be a function', function() {
+		it('should abort when the Robot has not been placed', function() {
 
-			var robot = new Robot();
-
-			assert.strictEqual(typeof robot.right, 'function');
-
-		});
-
-		it('should abort when the robot is not placed on a table', function() {
-
-			var robot = new Robot();
+			var robot = new Robot(new Table(1, 1));
 
 			assert.strictEqual(robot.right(), false);
 
@@ -393,17 +246,9 @@ describe('Robot', function() {
 
 	describe('`report` method', function() {
 
-		it('should be a function', function() {
+		it('should abort when the Robot has not been placed', function() {
 
-			var robot = new Robot();
-
-			assert.strictEqual(typeof robot.report, 'function');
-
-		});
-
-		it('should abort when the robot is not placed on a table', function() {
-
-			var robot = new Robot();
+			var robot = new Robot(new Table(1, 1));
 
 			assert.strictEqual(robot.report(), undefined);
 
@@ -427,14 +272,6 @@ describe('Robot', function() {
 
 	describe('`command` method', function() {
 
-		it('should be a function', function() {
-
-			var robot = new Robot();
-
-			assert.strictEqual(typeof robot.command, 'function');
-
-		});
-
 		it('should call `place` with arguments given', function() {
 
 			var args,
@@ -450,24 +287,6 @@ describe('Robot', function() {
 			Robot.prototype.command.call(mockedRobot, 'PLACE 0,0,NORTH');
 
 			assert.deepEqual(args, [0, 0, 'NORTH']);
-
-		});
-
-		it('shouldn\'t call `place` if the command has no arguments', function() {
-
-			var called = false,
-			    mockedRobot = {
-					x: 0,
-					y: 0,
-					direction: 0,
-					place: function() {
-						called = true;
-					}
-				};
-
-			Robot.prototype.command.call(mockedRobot, 'PLACE');
-
-			assert.strictEqual(called, false);
 
 		});
 
@@ -534,6 +353,7 @@ describe('Robot', function() {
 					direction: 0,
 					report: function() {
 						called = true;
+						return '';
 					}
 				};
 
@@ -548,12 +368,6 @@ describe('Robot', function() {
 });
 
 describe('Table', function() {
-
-	it('should be a function', function() {
-
-		assert.strictEqual(typeof Table, 'function');
-
-	});
 
 	it('should throw an Error when given no width or height', function() {
 
@@ -576,6 +390,60 @@ describe('Table', function() {
 		var table = new Table(10, 10);
 		assert.strictEqual(table.width, 10);
 		assert.strictEqual(table.height, 10);
+
+	});
+
+	describe('`isValidCoordinate` method', function() {
+
+		var table = new Table(5, 5);
+
+		it('should return `true` if coordinate is within the Table\'s dimensions', function() {
+
+			assert.strictEqual(table.isValidCoordinate(0, 0), true);
+			assert.strictEqual(table.isValidCoordinate(2, 0), true);
+			assert.strictEqual(table.isValidCoordinate(0, 2), true);
+			assert.strictEqual(table.isValidCoordinate(2, 2), true);
+			assert.strictEqual(table.isValidCoordinate(4, 0), true);
+			assert.strictEqual(table.isValidCoordinate(0, 4), true);
+			assert.strictEqual(table.isValidCoordinate(4, 4), true);
+
+		});
+
+		it('should return `false` if `x` is not a `Number`', function() {
+
+			assert.strictEqual(table.isValidCoordinate("0", 0), false);
+
+		});
+
+		it('should return `false` if `y` is not a `Number`', function() {
+
+			assert.strictEqual(table.isValidCoordinate(0, "0"), false);
+
+		});
+
+		it('should return `false` if `x` is less than `0`', function() {
+
+			assert.strictEqual(table.isValidCoordinate(-1, 0), false);
+
+		});
+
+		it('should return `false` if `y` is less than `0`', function() {
+
+			assert.strictEqual(table.isValidCoordinate(0, -1), false);
+
+		});
+
+		it('should return `false` if `x` is more than the Table\'s width', function() {
+
+			assert.strictEqual(table.isValidCoordinate(5, 0), false);
+
+		});
+
+		it('should return `false` if `y` is more than the Table\'s width', function() {
+
+			assert.strictEqual(table.isValidCoordinate(0, 5), false);
+
+		});
 
 	});
 
