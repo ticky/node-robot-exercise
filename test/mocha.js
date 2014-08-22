@@ -124,11 +124,39 @@ describe('Robot', function() {
 
 		});
 
+		it('should abort if the new position to the north would be off the Table', function() {
+
+			var robot = new Robot(new Table(1, 1));
+
+			robot.place(0, 0, 'NORTH');
+
+			robot.move();
+
+			assert.strictEqual(robot.y, 0);
+
+			assert.strictEqual(robot.x, 0);
+
+		});
+
 		it('should decrement the Robot\'s `y` by 1 if facing south', function() {
 
 			var robot = new Robot(new Table(1, 2));
 
 			robot.place(0, 1, 'SOUTH');
+
+			robot.move();
+
+			assert.strictEqual(robot.y, 0);
+
+			assert.strictEqual(robot.x, 0);
+
+		});
+
+		it('should abort if the new position to the south would be off the Table', function() {
+
+			var robot = new Robot(new Table(1, 1));
+
+			robot.place(0, 0, 'SOUTH');
 
 			robot.move();
 
@@ -152,6 +180,20 @@ describe('Robot', function() {
 
 		});
 
+		it('should abort if the new position to the east would be off the Table', function() {
+
+			var robot = new Robot(new Table(1, 1));
+
+			robot.place(0, 0, 'EAST');
+
+			robot.move();
+
+			assert.strictEqual(robot.y, 0);
+
+			assert.strictEqual(robot.x, 0);
+
+		});
+
 		it('should decrement the Robot\'s `x` by 1 if facing west', function() {
 
 			var robot = new Robot(new Table(2, 1));
@@ -163,6 +205,20 @@ describe('Robot', function() {
 			assert.strictEqual(robot.x, 0);
 
 			assert.strictEqual(robot.y, 0);
+
+		});
+
+		it('should abort if the new position to the west would be off the Table', function() {
+
+			var robot = new Robot(new Table(1, 1));
+
+			robot.place(0, 0, 'WEST');
+
+			robot.move();
+
+			assert.strictEqual(robot.y, 0);
+
+			assert.strictEqual(robot.x, 0);
 
 		});
 
