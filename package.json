@@ -4,6 +4,10 @@
   "version": "1.0.0",
   "description": "A programming exercise, creating an interpreter for programming a “robot”. Think RoboRally but in text only.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/geoffstokes/node-robot-exercise.git"
+  },
   "bin": {
     "robot-exercise": "bin/robots.js"
   },
