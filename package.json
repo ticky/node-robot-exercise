@@ -1,6 +1,6 @@
 {
   "name": "robot-exercise",
-  "author": "Geoff Stokes <geoff@geoffstokes.net>",
+  "author": "Jessica Stokes <hello@jessicastokes.net>",
   "version": "1.0.0",
   "description": "A programming exercise, creating an interpreter for programming a “robot”. Think RoboRally but in text only.",
   "main": "index.js",
